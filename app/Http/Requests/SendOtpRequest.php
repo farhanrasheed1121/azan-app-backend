@@ -28,7 +28,7 @@ class SendOtpRequest extends FormRequest
     public function rules()
     {
         return [
-            'phone_number' => 'required',
+            'phone_number' => 'required|exists:users,phone_number',
         ];
     }
     protected function failedValidation(Validator $validator)

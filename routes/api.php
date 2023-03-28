@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
-|--------------------------------------------------------------------------
+|---------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
 |
@@ -21,3 +21,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('/register', [AuthController::class, 'signUp']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/send_otp', [AuthController::class, 'sendOtp']);
+Route::post('/verify_otp', [AuthController::class, 'verifyOTP']);
+Route::post('/update_password', [AuthController::class, 'updatePassword']);

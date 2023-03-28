@@ -7,7 +7,8 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use App\Http\Traits\ResponseTrait;
 
-class LoginRequest extends FormRequest
+
+class VerifyOtpRequest extends FormRequest
 {
     use ResponseTrait;
     /**
@@ -29,7 +30,7 @@ class LoginRequest extends FormRequest
     {
         return [
             'phone_number' => 'required|exists:users,phone_number',
-            'password' => 'required'
+            'otp_code' => 'required'
         ];
     }
     protected function failedValidation(Validator $validator)

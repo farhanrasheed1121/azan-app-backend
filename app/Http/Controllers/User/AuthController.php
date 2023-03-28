@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\SendOtpRequest;
 use App\Http\Requests\SignupRequest;
+use App\Http\Requests\VerifyOtpRequest;
 use App\Http\Traits\ResponseTrait;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 
 class AuthController extends Controller
 {
@@ -58,5 +61,32 @@ class AuthController extends Controller
         }
         // Mail::to($request->email)->send(new VerifyEmail($otp));
         return $this->sendResponse([['otp_code' => $otp]], 'Otp code sent to your email');
+    }
+
+    // Verification of OTP Code API 
+    public function verifyOTP(VerifyOtpRequest $request)
+    {
+        $user = User::where([['phone_number', '=', $request->phone_number], ['otp_code', '=', $request->otp_code]])->exists();
+        if (!$user) {
+            return $this->sendError('Invalid Code.');
+        }
+        return $this->sendResponse([], 'Otp matched, Change your password.');
+    }
+
+    //////////update password....../////////
+    public function updatePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|confirmed|min:8',
+            'phone_number' => 'required|exists:users,phone_number'
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError('Password should not be less than 8 digits and must match.', $validator->errors());
+        }
+
+        if (!User::where('phone_number', $request->phone_number)->update(['otp_code' => Null, 'password' => bcrypt($request->password)])) {
+            return $this->sendError('Unable to process. Please try again later.');
+        }
+        return $this->sendResponse([], 'Password updated successfully.');
     }
 }
