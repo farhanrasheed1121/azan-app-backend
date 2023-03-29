@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\User\AuthController;
+use App\Http\Controllers\User\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,3 +24,5 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/send_otp', [AuthController::class, 'sendOtp']);
 Route::post('/verify_otp', [AuthController::class, 'verifyOTP']);
 Route::post('/update_password', [AuthController::class, 'updatePassword']);
+Route::post('/al_quran', [UserController::class, 'alQuran']);
+Route::post('/add_post', [UserController::class, 'addPost']);
