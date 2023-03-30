@@ -66,6 +66,7 @@ class AuthController extends Controller
     // Verification of OTP Code API 
     public function verifyOTP(VerifyOtpRequest $request)
     {
+
         $user = User::where([['phone_number', '=', $request->phone_number], ['otp_code', '=', $request->otp_code]])->exists();
         if (!$user) {
             return $this->sendError('Invalid Code.');

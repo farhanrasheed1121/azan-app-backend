@@ -4,6 +4,8 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\ResponseTrait;
+use App\Models\CommunityQoute;
+use App\Models\IslamicQoute;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -85,5 +87,85 @@ class UserController extends Controller
             return $this->sendError('Unable to proccess. Please try again later');
         }
         return $this->sendResponse([[$data]], 'Add Post successfully');
+    }
+    ///// get post/////////
+    public function post(Request $request)
+    {
+        $post = Post::where('type', $request->type)->get();
+        if (!$post) {
+            return $this->sendError('Unable to proccess. Please try again later');
+        }
+        return $this->sendResponse([[$post]], 'get Post successfully');
+    }
+    /// our comunity post///////communityQoute//
+
+    public function communityQoute(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'description' => 'required',
+
+
+        ]);
+        if ($validator->fails()) {
+
+            $errors = $this->sendError(implode(",", $validator->errors()->all()));
+            throw new HttpResponseException($errors, 422);
+        }
+
+        $islamic = communityQoute::create([
+            'user_id' => $request->user_id,
+            'description' => $request->description
+        ]);
+        if (!$islamic) {
+            return $this->sendError('Unable to proccess. Please try again later');
+        }
+        return $this->sendResponse([$islamic], 'Add Post successfully');
+    }
+    /// islamic post///////
+
+    public function islamicQoute(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'title' => 'required',
+            'file' => 'required'
+
+
+        ]);
+        if ($validator->fails()) {
+
+            $errors = $this->sendError(implode(",", $validator->errors()->all()));
+            throw new HttpResponseException($errors, 422);
+        }
+
+        $community = islamicQoute::create([
+            'user_id' => $request->user_id,
+            'title' => $request->title,
+            'file' => $request->file
+        ]);
+        if (!$community) {
+            return $this->sendError('Unable to proccess. Please try again later');
+        }
+        return $this->sendResponse([$community], 'Add Post successfully');
+    }
+    ///get post //////////
+    public function getPost(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'type' => 'required',
+        ]);
+        if ($validator->fails()) {
+
+            $errors = $this->sendError(implode(",", $validator->errors()->all()));
+            throw new HttpResponseException($errors, 422);
+        }
+        if ($request->type == 'islamic') {
+            $post = IslamicQoute::paginate(10);
+        } else {
+
+            $post = communityQoute::paginate(10);
+        }
+        return $this->sendResponse([$post], 'Get Post successfully');
     }
 }
