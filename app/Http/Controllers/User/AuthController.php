@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\SendOtpRequest;
 use App\Http\Requests\SignupRequest;
+use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\VerifyOtpRequest;
 use App\Http\Traits\ResponseTrait;
 use App\Models\User;
@@ -76,15 +77,15 @@ class AuthController extends Controller
     }
 
     //////////update password....../////////
-    public function updatePassword(Request $request)
+    public function updatePassword(UpdatePasswordRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'password' => 'required|confirmed|min:8',
-            'phone_number' => 'required|exists:users,phone_number'
-        ]);
-        if ($validator->fails()) {
-            return $this->sendError('Password should not be less than 8 digits and must match.', $validator->errors());
-        }
+        // $validator = Validator::make($request->all(), [
+        //     'password' => 'required|confirmed|min:8',
+        //     'phone_number' => 'required|exists:users,phone_number'
+        // ]);
+        // if ($validator->fails()) {
+        //     return $this->sendError('Password should not be less than 8 digits and must match.', $validator->errors());
+        // }
 
         if (!User::where('phone_number', $request->phone_number)->update(['otp_code' => Null, 'password' => bcrypt($request->password)])) {
             return $this->sendError('Unable to process. Please try again later.');
