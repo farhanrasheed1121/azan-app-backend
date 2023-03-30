@@ -33,6 +33,8 @@ class User extends Authenticatable
         'password',
         'country',
         'city',
+        'social_type',
+        'social_id'
 
     ];
 

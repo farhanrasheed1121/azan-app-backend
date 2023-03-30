@@ -32,6 +32,7 @@ Route::post('/add_islamic', [UserController::class, 'islamicQoute']);
 Route::post('/add_community', [UserController::class, 'communityQoute']);
 Route::post('/post', [UserController::class, 'getPost']);
 
+Route::post('/social_login', [AuthController::class, 'handleSocialiteCallback']);
 
 Route::middleware('auth:api')->group(function () {
     Route::post('/add_post', [UserController::class, 'addPost']);
