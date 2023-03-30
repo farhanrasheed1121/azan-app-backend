@@ -26,7 +26,6 @@ Route::post('/verify_otp', [AuthController::class, 'verifyOTP']);
 Route::post('/update_password', [AuthController::class, 'updatePassword']);
 
 
-Route::post('/add_post', [UserController::class, 'addPost']);
 Route::post('/get_post', [UserController::class, 'post']);
 Route::post('/al_quran', [UserController::class, 'alQuran']);
 Route::post('/add_islamic', [UserController::class, 'islamicQoute']);
@@ -35,4 +34,5 @@ Route::post('/post', [UserController::class, 'getPost']);
 
 
 Route::middleware('auth:api')->group(function () {
+    Route::post('/add_post', [UserController::class, 'addPost']);
 });
