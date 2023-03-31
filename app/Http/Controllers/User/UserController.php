@@ -86,7 +86,7 @@ class UserController extends Controller
         if (!$data) {
             return $this->sendError('Unable to proccess. Please try again later');
         }
-        return $this->sendResponse([[$data]], 'Add Post successfully');
+        return $this->sendResponse([$data], 'Add Post successfully');
     }
     ///// get post/////////
     public function post(Request $request)
@@ -95,7 +95,7 @@ class UserController extends Controller
         if (!$post) {
             return $this->sendError('Unable to proccess. Please try again later');
         }
-        return $this->sendResponse([[$post]], 'get Post successfully');
+        return $this->sendResponse([$post], 'get Post successfully');
     }
     /// our comunity post///////communityQoute//
 
