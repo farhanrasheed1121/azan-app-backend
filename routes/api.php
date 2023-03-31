@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
 Route::post('/register', [AuthController::class, 'signUp']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/send_otp', [AuthController::class, 'sendOtp']);
@@ -26,14 +26,15 @@ Route::post('/verify_otp', [AuthController::class, 'verifyOTP']);
 Route::post('/update_password', [AuthController::class, 'updatePassword']);
 
 
-Route::post('/get_post', [UserController::class, 'post']);
-Route::post('/al_quran', [UserController::class, 'alQuran']);
-Route::post('/add_islamic', [UserController::class, 'islamicQoute']);
-Route::post('/add_community', [UserController::class, 'communityQoute']);
-Route::post('/post', [UserController::class, 'getPost']);
 
-Route::post('/social_login', [AuthController::class, 'handleSocialiteCallback']);
+Route::middleware(['auth:api'])->group(function () {
+    Route::post('/get_post', [UserController::class, 'post']);
+    Route::post('/al_quran', [UserController::class, 'alQuran']);
+    Route::post('/add_islamic', [UserController::class, 'islamicQoute']);
+    Route::post('/add_community', [UserController::class, 'communityQoute']);
+    Route::post('/post', [UserController::class, 'getPost']);
+    Route::post('/prayer_time', [UserController::class, 'prayerTime']);
 
-Route::middleware('auth:api')->group(function () {
+    Route::post('/social_login', [AuthController::class, 'handleSocialiteCallback']);
     Route::post('/add_post', [UserController::class, 'addPost']);
 });

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PrayerTimeRequest;
 use App\Http\Traits\ResponseTrait;
 use App\Models\CommunityQoute;
 use App\Models\IslamicQoute;
 use App\Models\Post;
+use App\Models\PrayerTime;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -41,8 +43,9 @@ class UserController extends Controller
             return $this->sendError('Unable to proccess. Please try again later');
         }
         $text = $test['data']['ayahs'][1]['text'];
-        $image = $this->generatePng($text);
-        return $this->sendResponse([[$image]], 'Get data successfully');
+        // dd('com');
+        // $image = $this->generatePng($text);
+        return $this->sendResponse([$test], 'Get data successfully');
     }
 
     public function generatePng($text)
@@ -167,5 +170,42 @@ class UserController extends Controller
             $post = communityQoute::paginate(10);
         }
         return $this->sendResponse([$post], 'Get Post successfully');
+    }
+
+    /// prayer time zone with location/////
+    public function prayerTime(PrayerTimeRequest $request)
+    {
+        // Get the user's latitude and longitude
+        $latitude = $request->latitude;
+        $longitude = $request->longitude;
+
+        // Send a request to the Islamic Finder API
+        $url = 'https://api.aladhan.com/v1/timings?latitude=' . $latitude . '&longitude=' . $longitude . '&method=2';
+        $response = file_get_contents($url);
+        $data = json_decode($response, true);
+        if (!$data) {
+            return $this->sendError('Unable to proccess. Please try again later');
+        }
+
+        // Get the prayer times from the API response
+        $fajrTime = $data['data']['timings']['Fajr'];
+        $dhuhrTime = $data['data']['timings']['Dhuhr'];
+        $asrTime = $data['data']['timings']['Asr'];
+        $maghribTime = $data['data']['timings']['Maghrib'];
+        $ishaTime = $data['data']['timings']['Isha'];
+        // Get the prayer times for the user's location
+
+        // dd(auth()->user()->id);
+        // Return the prayer times as a JSON response
+        $responseData = [
+            'user_id' => auth()->user()->id,
+            'fajr_time' => $fajrTime,
+            'dhuhr_time' => $dhuhrTime,
+            'asr_time' => $asrTime,
+            'maghrib_time' => $maghribTime,
+            'isha_time' => $ishaTime,
+        ];
+        $prayer = PrayerTime::create($responseData);
+        return $this->sendResponse([$prayer], 'Get Prayer time successfully');
     }
 }
