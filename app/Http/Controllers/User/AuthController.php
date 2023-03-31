@@ -103,7 +103,6 @@ class AuthController extends Controller
                 'last_name' => 'required|max:255',
                 'email' => 'required|email',
                 'social_type' => 'required',
-                'phone_number' => 'required'
             ]);
             if ($validator->fails()) {
                 return $this->sendError(implode(",", $validator->errors()->all()));
