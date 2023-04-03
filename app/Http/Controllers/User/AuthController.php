@@ -114,11 +114,11 @@ class AuthController extends Controller
                     'social_id' => $userData['social_id'],
                     'social_type' => $userData['social_type'],
                 ]);
-                $token = $finduser->createToken('API Token')->accessToken;
+                $finduser->token = $finduser->createToken('API Token')->accessToken;
                 return $this->sendResponse(
                     [
-                        'user_data' => $finduser,
-                        'token' => $token
+                        $finduser,
+
                     ],
                     'User has been logged in successfully',
 
@@ -135,11 +135,11 @@ class AuthController extends Controller
                 if (!$newUser) {
                     return $this->sendError('Unable to login user, please try again later');
                 }
-                $token = $newUser->createToken('API Token')->accessToken;
+                $newUser->token = $newUser->createToken('API Token')->accessToken;
                 return $this->sendResponse(
                     [
-                        'user_data' => $newUser,
-                        'token' => $token
+                        $newUser,
+
                     ],
                     'User has been logged in successfully',
                 );
