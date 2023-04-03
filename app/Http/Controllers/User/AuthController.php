@@ -116,11 +116,12 @@ class AuthController extends Controller
                 ]);
                 $token = $finduser->createToken('API Token')->accessToken;
                 return $this->sendResponse(
-                    'User has been logged in successfully',
                     [
                         'user_data' => $finduser,
                         'token' => $token
-                    ]
+                    ],
+                    'User has been logged in successfully',
+
                 );
             } else {
                 $newUser = User::create([
@@ -136,11 +137,11 @@ class AuthController extends Controller
                 }
                 $token = $newUser->createToken('API Token')->accessToken;
                 return $this->sendResponse(
-                    'User has been logged in successfully',
                     [
                         'user_data' => $newUser,
                         'token' => $token
-                    ]
+                    ],
+                    'User has been logged in successfully',
                 );
             }
         } catch (Exception $ex) {
