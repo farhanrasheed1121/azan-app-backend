@@ -117,7 +117,7 @@ class AuthController extends Controller
                 $finduser->token = $finduser->createToken('API Token')->accessToken;
                 return $this->sendResponse(
                     [
-                        $finduser,
+                        $finduser
 
                     ],
                     'User has been logged in successfully',
@@ -138,7 +138,7 @@ class AuthController extends Controller
                 $newUser->token = $newUser->createToken('API Token')->accessToken;
                 return $this->sendResponse(
                     [
-                        $newUser,
+                        $newUser
 
                     ],
                     'User has been logged in successfully',
