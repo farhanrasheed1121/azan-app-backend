@@ -2,10 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\IslamicQoute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class IslamicFactory extends Factory
 {
+   
     /**
      * Define the model's default state.
      *
@@ -14,9 +16,8 @@ class IslamicFactory extends Factory
     public function definition()
     {
         return [
-            'user_id',
-            'title',
-            'file'
+            
+            
         ];
     }
 }
