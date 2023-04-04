@@ -12,7 +12,6 @@ class IslamicQoute extends Model
         'user_id',
         'title',
         'file'
-        
 
     ];
 }

@@ -102,14 +102,14 @@ class UserController extends Controller
             throw new HttpResponseException($errors, 422);
         }
 
-        $islamic = communityQoute::create([
+        $community = communityQoute::create([
             'user_id' => $request->user_id,
             'description' => $request->description
         ]);
-        if (!$islamic) {
+        if (!$community) {
             return $this->sendError('Unable to proccess. Please try again later');
         }
-        return $this->sendResponse([$islamic], 'Add Post successfully');
+        return $this->sendResponse([$community], 'Add Post successfully');
     }
     /// islamic post///////
 
@@ -128,15 +128,15 @@ class UserController extends Controller
             throw new HttpResponseException($errors, 422);
         }
 
-        $community = islamicQoute::create([
+        $islamic = islamicQoute::create([
             'user_id' => $request->user_id,
             'title' => $request->title,
             'file' => $request->file
         ]);
-        if (!$community) {
+        if (!$islamic) {
             return $this->sendError('Unable to proccess. Please try again later');
         }
-        return $this->sendResponse([$community], 'Add Post successfully');
+        return $this->sendResponse([$islamic], 'Add Post successfully');
     }
     ///get post //////////
     public function getPost(Request $request)
@@ -218,8 +218,12 @@ class UserController extends Controller
                 $nextPrayerTime = ['Isha' => $responseData['isha_time']];
             }
         }
-        // $date = setlocale(LC_TIME, 'ar');
+        // $date = use Hijri;
+
+        // $hijriDate = Hijri::toHijri('2023-04-04');
+        // echo $hijriDate;
         // dd($date);
         return $this->sendResponse($nextPrayerTime, 'Get Prayer time successfully');
     }
+
 }
