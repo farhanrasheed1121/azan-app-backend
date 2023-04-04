@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use ALkoumi\LaravelHijriDate\Hijri;
 
 
 
@@ -217,8 +218,8 @@ class UserController extends Controller
                 $nextPrayerTime = ['Isha' => $responseData['isha_time']];
             }
         }
-        // Hijri::Date('format', 'timestamp');
-        // dd($nextPrayerTime);
+        // $date = setlocale(LC_TIME, 'ar');
+        // dd($date);
         return $this->sendResponse($nextPrayerTime, 'Get Prayer time successfully');
     }
 }
