@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bf6cd1bc2a72c0ea06c24abdb6d2afc3",
+    "content-hash": "52f9986540856232b836a5d0d480ce66",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -697,6 +697,89 @@
             ],
             "abandoned": true,
             "time": "2022-02-23T14:25:13+00:00"
+        },
+        {
+            "name": "geniusts/hijri-dates",
+            "version": "1.1.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GeniusTS/hijri-dates.git",
+                "reference": "af15f8849eea95b2faa463c751483be69bff37d2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GeniusTS/hijri-dates/zipball/af15f8849eea95b2faa463c751483be69bff37d2",
+                "reference": "af15f8849eea95b2faa463c751483be69bff37d2",
+                "shasum": ""
+            },
+            "require": {
+                "nesbot/carbon": "^2.16|^1.22",
+                "php": ">=7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GeniusTS\\HijriDate\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abdul-Kader Zein-Eddin",
+                    "email": "aboudeh1987@gmail.com"
+                }
+            ],
+            "description": "PHP library to convert Gregorian date to Hijri date and vice versa",
+            "support": {
+                "issues": "https://github.com/GeniusTS/hijri-dates/issues",
+                "source": "https://github.com/GeniusTS/hijri-dates/tree/1.1.9"
+            },
+            "time": "2021-05-03T02:22:08+00:00"
+        },
+        {
+            "name": "geniusts/laravel-hijri-dates",
+            "version": "1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GeniusTS/laravel-hijri-dates.git",
+                "reference": "fbce4885096be8b4c08eacf6202029f1798ca880"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GeniusTS/laravel-hijri-dates/zipball/fbce4885096be8b4c08eacf6202029f1798ca880",
+                "reference": "fbce4885096be8b4c08eacf6202029f1798ca880",
+                "shasum": ""
+            },
+            "require": {
+                "geniusts/hijri-dates": "~1.1.0",
+                "illuminate/support": "^5|^6|^7|^8",
+                "php": ">=7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GeniusTS\\LaravelHijri\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abdul-Kader Zein-Eddin",
+                    "email": "aboudeh1987@gmail.com"
+                }
+            ],
+            "description": "Hijri dates package for Laravel",
+            "support": {
+                "issues": "https://github.com/GeniusTS/laravel-hijri-dates/issues",
+                "source": "https://github.com/GeniusTS/laravel-hijri-dates/tree/1.0.5"
+            },
+            "time": "2020-09-14T17:46:09+00:00"
         },
         {
             "name": "graham-campbell/result-type",

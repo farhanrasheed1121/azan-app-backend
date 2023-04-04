@@ -161,7 +161,8 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class,             
+        // Intervention\Image\ImageServiceProvider::class,   
+        GeniusTS\LaravelHijri\HijriDatesServiceProvider::class,          
 
 
         /*

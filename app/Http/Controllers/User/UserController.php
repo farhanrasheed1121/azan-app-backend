@@ -16,7 +16,9 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use ALkoumi\LaravelHijriDate\Hijri;
+// use GeniusTS\LaravelHijriDate\Hijri;
+use GeniusTS\HijriDate\Date;
+use \Carbon\Carbon;
 
 
 
@@ -200,30 +202,40 @@ class UserController extends Controller
 
         $user_location = UserLocation::create($location);
 
-        $currentTime = now()->format('H:i:s');
+        $currentTime = Carbon::now();
 
-
-        // dd($responseData['dhuhr_time']);
+        dd($currentTime);
+        // dd($currentTime);
         $nextPrayerTime = '';
         if ($responseData) {
-            if ($responseData['fajr_time'] > $currentTime) {
+            if ($responseData['fajr_time'] >= $currentTime) {
                 $nextPrayerTime = ['Fajr' => $responseData['fajr_time']];
-            } else if ($responseData['dhuhr_time'] > $currentTime) {
+            } else if ($responseData['dhuhr_time'] >= $currentTime) {
                 $nextPrayerTime = ['Dhuhr' => $responseData['dhuhr_time']];
-            } else if ($responseData['asr_time'] > $currentTime) {
+            } else if ($responseData['asr_time'] >= $currentTime) {
                 $nextPrayerTime = ['Asr' => $responseData['asr_time']];
-            } else if ($responseData['maghrib_time'] > $currentTime) {
+            } else if ($responseData['maghrib_time'] >= $currentTime) {
                 $nextPrayerTime = ['Maghrib' => $responseData['maghrib_time']];
-            } else if ($responseData['isha_time'] > $currentTime) {
+            } else if ($responseData['isha_time'] >= $currentTime) {
                 $nextPrayerTime = ['Isha' => $responseData['isha_time']];
             }
         }
-        // $date = use Hijri;
 
-        // $hijriDate = Hijri::toHijri('2023-04-04');
-        // echo $hijriDate;
-        // dd($date);
+
+        
+        $today = Date::today();
+        $nextPrayerTime['date'] = $today->format('l d F o');
+
+        // // Get the current timestamp
+        // $timestamp = time();
+
+        // // Get the Hijri date
+        // $hijriDate = HijriDate;
+
+        // // Print the Hijri date
+        // echo 'The current Hijri date is: ' . $hijriDate['day'] . ' ' . $hijriDate['month_name'] . ' ' . $hijriDate['year'];
+        // // dd($date);
+
         return $this->sendResponse($nextPrayerTime, 'Get Prayer time successfully');
     }
-
 }
