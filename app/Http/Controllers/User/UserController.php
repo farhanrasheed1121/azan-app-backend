@@ -202,9 +202,9 @@ class UserController extends Controller
 
         $user_location = UserLocation::create($location);
 
-        $currentTime = Carbon::now();
+        $currentTime = Carbon::now()->format('H:i');
 
-        dd($currentTime);
+        // dd($currentTime);
         // dd($currentTime);
         $nextPrayerTime = '';
         if ($responseData) {
