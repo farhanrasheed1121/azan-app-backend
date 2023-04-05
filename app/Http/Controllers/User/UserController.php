@@ -9,6 +9,8 @@ use App\Models\CommunityQoute;
 use App\Models\IslamicQoute;
 use App\Models\Post;
 use App\Models\PrayerTime;
+use App\Models\Question;
+use App\Models\QuestionOption;
 use App\Models\User;
 use App\Models\UserLocation;
 use Illuminate\Http\Request;
@@ -180,8 +182,6 @@ class UserController extends Controller
         // $longitude = $request->longitude;
         // $currentTime = $request->current_time;
 
-        // dd(auth()->user()->id);
-
         // Send a request to the Islamic Finder API
         $url = 'https://api.aladhan.com/v1/timings?latitude=' . $latitude . '&longitude=' . $longitude . '&method=2';
         $response = file_get_contents($url);
@@ -251,5 +251,49 @@ class UserController extends Controller
             'upcomming prayer' => $nextPrayerTime,
 
         ], 'Get Prayer time successfully');
+    }
+
+    ////// add Question....//////
+    public function question(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'question' => 'required',
+            'option' => 'required',
+
+        ]);
+        if ($validator->fails()) {
+
+            $errors = $this->sendError(implode(",", $validator->errors()->all()));
+            throw new HttpResponseException($errors, 422);
+        }
+        $question = Question::create([
+            'user_id' => auth()->user()->id,
+            'question' => $request->question,
+
+        ]);
+        if (!$question) {
+            return $this->sendError('Unable to proccess. Please try again later');
+        }
+        $option = $request->option;
+        foreach ($option as $options) {
+            $question_option = new QuestionOption();
+            $question_option->question_id = $question->id;
+            $question_option->title = $options['title'];
+            $question_option->status = $options['status'];
+            $question_option->save();
+        }
+        // $question['option'] = $question_option;
+        return $this->sendResponse([$question], 'Question set Successfully');
+    }
+
+    ////////get question ////////
+
+    public function getQuestion()
+    {
+        $question = Question::with('option')->get();
+        if (!$question) {
+            return $this->sendError('Unable to proccess. Please try again later');
+        }
+        return $this->sendResponse($question, 'Question get Successfully');
     }
 }

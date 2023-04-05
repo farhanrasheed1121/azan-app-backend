@@ -30,10 +30,12 @@ Route::post('/get_post', [UserController::class, 'post']);
 Route::post('/al_quran', [UserController::class, 'alQuran']);
 Route::post('/post', [UserController::class, 'getPost']);
 Route::post('/add_post', [UserController::class, 'addPost']);
+Route::post('/get_question', [UserController::class, 'getQuestion']);
 
 
 
 Route::middleware(['auth:api'])->group(function () {
     Route::post('/add_islamic', [UserController::class, 'islamicQoute']);
     Route::post('/add_community', [UserController::class, 'communityQoute']);
+    Route::post('/add_question', [UserController::class, 'question']);
 });
