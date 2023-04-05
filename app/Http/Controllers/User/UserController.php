@@ -17,8 +17,10 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 // use GeniusTS\LaravelHijriDate\Hijri;
-use GeniusTS\HijriDate\Date;
+// use GeniusTS\HijriDate\Date;
+use TimezoneMapper\TimezoneMapper;
 use \Carbon\Carbon;
+
 
 
 
@@ -204,6 +206,20 @@ class UserController extends Controller
 
         $currentTime = Carbon::now()->format('H:i');
 
+        // $currentTime = getCurrentTimeByCoordinates($latitude, $longitude);
+
+        // Print the current time
+        // echo 'Current time: ' . $currentTime;
+        // $timeZone = TimezoneMapper::getTzForGeoCoords($latitude, $longitude);
+
+        // // Set the time zone
+        // date_default_timezone_set($timeZone);
+
+        // // Get the current time
+        // $currentTime = date('Y-m-d H:i:s');
+
+       
+        
         // dd($currentTime);
         // dd($currentTime);
         $nextPrayerTime = '';
@@ -223,18 +239,10 @@ class UserController extends Controller
 
 
         
-        $today = Date::today();
-        $nextPrayerTime['date'] = $today->format('l d F o');
+        // $today = Date::today();
+        // $nextPrayerTime['date'] = $today->format('l d F o');
 
-        // // Get the current timestamp
-        // $timestamp = time();
-
-        // // Get the Hijri date
-        // $hijriDate = HijriDate;
-
-        // // Print the Hijri date
-        // echo 'The current Hijri date is: ' . $hijriDate['day'] . ' ' . $hijriDate['month_name'] . ' ' . $hijriDate['year'];
-        // // dd($date);
+       
 
         return $this->sendResponse($nextPrayerTime, 'Get Prayer time successfully');
     }
