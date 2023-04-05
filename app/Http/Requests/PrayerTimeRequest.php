@@ -29,7 +29,8 @@ class PrayerTimeRequest extends FormRequest
     {
         return [
             'latitude' => 'required',
-            'longitude' => 'required'
+            'longitude' => 'required',
+            'current_time' => 'required'
         ];
     }
     protected function failedValidation(Validator $validator)

@@ -154,10 +154,10 @@ class UserController extends Controller
             throw new HttpResponseException($errors, 422);
         }
         if ($request->type == 'islamic') {
-            $post = IslamicQoute::paginate(10);
+            $post = IslamicQoute::with('user')->paginate(10);
         } else {
 
-            $post = communityQoute::paginate(10);
+            $post = communityQoute::with('user')->paginate(10);
         }
         return $this->sendResponse([$post], 'Get Post successfully');
     }
@@ -168,6 +168,7 @@ class UserController extends Controller
         // Get the user's latitude and longitude
         $latitude = $request->latitude;
         $longitude = $request->longitude;
+        // dd(auth()->user()->id);
 
         // Send a request to the Islamic Finder API
         $url = 'https://api.aladhan.com/v1/timings?latitude=' . $latitude . '&longitude=' . $longitude . '&method=2';
@@ -188,40 +189,30 @@ class UserController extends Controller
         // dd(auth()->user()->id);
         // Return the prayer times as a JSON response
         $responseData = [
-            'user_id' => auth()->user()->id,
+            
             'fajr_time' => $fajrTime,
             'dhuhr_time' => $dhuhrTime,
             'asr_time' => $asrTime,
             'maghrib_time' => $maghribTime,
             'isha_time' => $ishaTime,
         ];
-        $location = [
-            'user_id' => auth()->user()->id,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude
+        // $location = [
+        //     // 'user_id' => auth()->user()->id,
+        //     'latitude' => $request->latitude,
+        //     'longitude' => $request->longitude
 
-        ];
+        // ];
 
-        $user_location = UserLocation::create($location);
+        // $user_location = UserLocation::create($location);
 
-        $currentTime = Carbon::now()->format('H:i');
+        // $currentTime = Carbon::now()->format('H:i');
 
-        // $currentTime = getCurrentTimeByCoordinates($latitude, $longitude);
-
-        // Print the current time
-        // echo 'Current time: ' . $currentTime;
-        // $timeZone = TimezoneMapper::getTzForGeoCoords($latitude, $longitude);
-
-        // // Set the time zone
-        // date_default_timezone_set($timeZone);
-
-        // // Get the current time
-        // $currentTime = date('Y-m-d H:i:s');
+        $currentTime=$request->current_time;
 
        
         
         // dd($currentTime);
-        // dd($currentTime);
+        
         $nextPrayerTime = '';
         if ($responseData) {
             if ($responseData['fajr_time'] >= $currentTime) {
