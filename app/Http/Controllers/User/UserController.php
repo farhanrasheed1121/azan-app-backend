@@ -248,7 +248,7 @@ class UserController extends Controller
 
         return $this->sendResponse([
             'prayers' => $responseData,
-            'upcomming prayer' => $nextPrayerTime,
+            'upcomming_prayer' => $nextPrayerTime,
 
         ], 'Get Prayer time successfully');
     }
