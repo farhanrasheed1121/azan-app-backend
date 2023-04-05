@@ -25,6 +25,7 @@ Route::post('/send_otp', [AuthController::class, 'sendOtp']);
 Route::post('/verify_otp', [AuthController::class, 'verifyOTP']);
 Route::post('/update_password', [AuthController::class, 'updatePassword']);
 Route::post('/social_login', [AuthController::class, 'handleSocialiteCallback']);
+Route::post('/prayer_time', [UserController::class, 'prayerTime']);
 
 
 
@@ -35,7 +36,6 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('/add_islamic', [UserController::class, 'islamicQoute']);
     Route::post('/add_community', [UserController::class, 'communityQoute']);
     Route::post('/post', [UserController::class, 'getPost']);
-    Route::post('/prayer_time', [UserController::class, 'prayerTime']);
 
     Route::post('/add_post', [UserController::class, 'addPost']);
 });
