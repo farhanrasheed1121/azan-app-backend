@@ -125,6 +125,7 @@ class UserController extends Controller
             'file' => 'required'
 
 
+
         ]);
         if ($validator->fails()) {
 
@@ -147,6 +148,9 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'type' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
+            'current_time' => 'required'
         ]);
         if ($validator->fails()) {
 
@@ -159,15 +163,23 @@ class UserController extends Controller
 
             $post = communityQoute::with('user')->paginate(10);
         }
-        return $this->sendResponse([$post], 'Get Post successfully');
+        $latitude = $request->latitude;
+        $longitude = $request->longitude;
+        $currentTime = $request->current_time;
+
+        $prayer = $this->prayerTime($latitude, $longitude, $currentTime);
+
+        return $this->sendResponse([$post, $prayer], 'Get Post successfully');
     }
 
     /// prayer time zone with location/////
-    public function prayerTime(PrayerTimeRequest $request)
+    public function prayerTime($latitude, $longitude, $currentTime)
     {
         // Get the user's latitude and longitude
-        $latitude = $request->latitude;
-        $longitude = $request->longitude;
+        // $latitude = $request->latitude;
+        // $longitude = $request->longitude;
+        // $currentTime = $request->current_time;
+
         // dd(auth()->user()->id);
 
         // Send a request to the Islamic Finder API
@@ -189,7 +201,7 @@ class UserController extends Controller
         // dd(auth()->user()->id);
         // Return the prayer times as a JSON response
         $responseData = [
-            
+
             'fajr_time' => $fajrTime,
             'dhuhr_time' => $dhuhrTime,
             'asr_time' => $asrTime,
@@ -207,12 +219,11 @@ class UserController extends Controller
 
         // $currentTime = Carbon::now()->format('H:i');
 
-        $currentTime=$request->current_time;
 
-       
-        
+
+
         // dd($currentTime);
-        
+
         $nextPrayerTime = '';
         if ($responseData) {
             if ($responseData['fajr_time'] >= $currentTime) {
@@ -229,12 +240,16 @@ class UserController extends Controller
         }
 
 
-        
+
         // $today = Date::today();
         // $nextPrayerTime['date'] = $today->format('l d F o');
 
-       
 
-        return $this->sendResponse($nextPrayerTime, 'Get Prayer time successfully');
+
+        return $this->sendResponse([
+            'prayers' => $responseData,
+            'upcomming prayer' => $nextPrayerTime,
+
+        ], 'Get Prayer time successfully');
     }
 }
