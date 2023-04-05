@@ -227,15 +227,30 @@ class UserController extends Controller
         $nextPrayerTime = '';
         if ($responseData) {
             if ($responseData['fajr_time'] >= $currentTime) {
-                $nextPrayerTime = ['Fajr' => $responseData['fajr_time']];
+                $nextPrayerTime = [
+                    'title' => 'Fajr',
+                    'time' => $responseData['fajr_time']
+                ];
             } else if ($responseData['dhuhr_time'] >= $currentTime) {
-                $nextPrayerTime = ['Dhuhr' => $responseData['dhuhr_time']];
+                $nextPrayerTime = [
+                    'title' => 'Dhuhr',
+                    'time' => $responseData['dhuhr_time']
+                ];
             } else if ($responseData['asr_time'] >= $currentTime) {
-                $nextPrayerTime = ['Asr' => $responseData['asr_time']];
+                $nextPrayerTime = [
+                    'title' => 'Asr',
+                    'tiem' => $responseData['asr_time']
+                ];
             } else if ($responseData['maghrib_time'] >= $currentTime) {
-                $nextPrayerTime = ['Maghrib' => $responseData['maghrib_time']];
+                $nextPrayerTime = [
+                    'title' => 'Maghrib',
+                    'time' => $responseData['maghrib_time']
+                ];
             } else if ($responseData['isha_time'] >= $currentTime) {
-                $nextPrayerTime = ['Isha' => $responseData['isha_time']];
+                $nextPrayerTime = [
+                    'title' => 'Isha',
+                    'time' => $responseData['isha_time']
+                ];
             }
         }
 
