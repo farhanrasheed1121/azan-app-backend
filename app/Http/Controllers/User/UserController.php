@@ -5,6 +5,8 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PrayerTimeRequest;
 use App\Http\Traits\ResponseTrait;
+use App\Models\Azkar;
+use App\Models\AzkarContent;
 use App\Models\CommunityQoute;
 use App\Models\IslamicQoute;
 use App\Models\Post;
@@ -310,5 +312,44 @@ class UserController extends Controller
             return $this->sendError('Unable to proccess. Please try again later');
         }
         return $this->sendResponse($question, 'Question get Successfully');
+    }
+
+    //////// add Azkar /////////////
+    public function addAzkar(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'content' => 'required',
+
+        ]);
+        if ($validator->fails()) {
+
+            $errors = $this->sendError(implode(",", $validator->errors()->all()));
+            throw new HttpResponseException($errors, 422);
+        }
+        $azkar = Azkar::create([
+            'title' => $request->title
+        ]);
+        if (!$azkar) {
+            return $this->sendError('Unable to proccess. Please try again later');
+        }
+        $content = $request->content;
+        foreach ($content as $contents) {
+            $azkar_content = new AzkarContent();
+            $azkar_content->azkar_id = $azkar->id;
+            $azkar_content->content = $contents['content'];
+            $azkar_content->save();
+        }
+        return $this->sendResponse([$azkar], 'Question set Successfully');
+    }
+
+    ///get azkar //
+    public function getAzkar()
+    {
+        $azkar = Azkar::with('content')->get();
+        if (!$azkar) {
+            return $this->sendError('Unable to proccess. Please try again later');
+        }
+        return $this->sendResponse($azkar, 'Question get Successfully');
     }
 }
