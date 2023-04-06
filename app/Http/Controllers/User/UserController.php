@@ -239,7 +239,7 @@ class UserController extends Controller
             } else if ($responseData['asr_time'] >= $currentTime) {
                 $nextPrayerTime = [
                     'title' => 'Asr',
-                    'tiem' => $responseData['asr_time']
+                    'time' => $responseData['asr_time']
                 ];
             } else if ($responseData['maghrib_time'] >= $currentTime) {
                 $nextPrayerTime = [
