@@ -344,9 +344,17 @@ class UserController extends Controller
     }
 
     ///get azkar //
-    public function getAzkar()
+    public function getAzkar(Request $request)
     {
-        $azkar = Azkar::with('content')->get();
+        $validator = Validator::make($request->all(), [
+            'id' => 'required||exists:azkar_contents,azkar_id',
+        ]);
+        if ($validator->fails()) {
+
+            $errors = $this->sendError(implode(",", $validator->errors()->all()));
+            throw new HttpResponseException($errors, 422);
+        }
+        $azkar = AzkarContent::where('azkar_id', $request->id)->get();
         if (!$azkar) {
             return $this->sendError('Unable to proccess. Please try again later');
         }
