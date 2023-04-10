@@ -13,6 +13,7 @@ use App\Models\Post;
 use App\Models\PrayerTime;
 use App\Models\Question;
 use App\Models\QuestionOption;
+use App\Models\Tasbih;
 use App\Models\User;
 use App\Models\UserLocation;
 use Illuminate\Http\Request;
@@ -359,5 +360,37 @@ class UserController extends Controller
             return $this->sendError('Unable to proccess. Please try again later');
         }
         return $this->sendResponse($azkar, 'Question get Successfully');
+    }
+    //////// add tasbih  //////////
+    public function addTasbih(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'content' => 'required',
+            'count' => 'required',
+        ]);
+        if ($validator->fails()) {
+
+            $errors = $this->sendError(implode(",", $validator->errors()->all()));
+            throw new HttpResponseException($errors, 422);
+        }
+        $tasbih = Tasbih::create([
+            'title' => $request->title,
+            'content' => $request->content,
+            'count' => $request->count,
+        ]);
+        if (!$tasbih) {
+            return $this->sendError('Unable to proccess. Please try again later');
+        }
+        return $this->sendResponse([$tasbih], 'Tasbih set Successfully');
+    }
+    //// get tasbih ///////////
+    public function getTasbih()
+    {
+        $tasbih = Tasbih::get();
+        if (!$tasbih) {
+            return $this->sendError('Unable to proccess. Please try again later');
+        }
+        return $this->sendResponse($tasbih, 'Tasbih get Successfully');
     }
 }

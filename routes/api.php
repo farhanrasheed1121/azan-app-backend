@@ -32,6 +32,7 @@ Route::post('/post', [UserController::class, 'getPost']);
 Route::post('/add_post', [UserController::class, 'addPost']);
 Route::post('/get_question', [UserController::class, 'getQuestion']);
 Route::post('/get_azkar', [UserController::class, 'getAzkar']);
+Route::post('/get_tasbih', [UserController::class, 'getTasbih']);
 
 
 
@@ -40,4 +41,5 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('/add_community', [UserController::class, 'communityQoute']);
     Route::post('/add_question', [UserController::class, 'question']);
     Route::post('/add_azkar', [UserController::class, 'addAzkar']);
+    Route::post('/add_tasbih', [UserController::class, 'addTasbih']);
 });
