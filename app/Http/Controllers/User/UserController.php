@@ -254,6 +254,12 @@ class UserController extends Controller
                     'title' => 'Isha',
                     'time' => $responseData['isha_time']
                 ];
+            } 
+            else if ($responseData['isha_time'] <= $currentTime) {
+                $nextPrayerTime = [
+                    'title' => 'Fajr',
+                    'time' => $responseData['fajr_time']
+                ];
             }
         }
 
