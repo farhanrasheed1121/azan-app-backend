@@ -33,6 +33,7 @@ Route::post('/add_post', [UserController::class, 'addPost']);
 Route::post('/get_question', [UserController::class, 'getQuestion']);
 Route::post('/get_azkar', [UserController::class, 'getAzkar']);
 Route::post('/get_tasbih', [UserController::class, 'getTasbih']);
+Route::post('/guest_user', [UserController::class, 'guestUser']);
 
 
 

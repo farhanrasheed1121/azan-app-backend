@@ -36,7 +36,8 @@ class SignupRequest extends FormRequest
             'phone_number' => ["required", "unique:users,phone_number"],
             'password' => 'required|confirmed|min:8',
             'country' => 'required',
-            'city' => 'required'
+            'city' => 'required',
+            
 
         ];
     }

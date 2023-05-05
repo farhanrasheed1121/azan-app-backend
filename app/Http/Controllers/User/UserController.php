@@ -8,6 +8,7 @@ use App\Http\Traits\ResponseTrait;
 use App\Models\Azkar;
 use App\Models\AzkarContent;
 use App\Models\CommunityQoute;
+use App\Models\GuestUser;
 use App\Models\IslamicQoute;
 use App\Models\Post;
 use App\Models\PrayerTime;
@@ -180,11 +181,17 @@ class UserController extends Controller
     /// prayer time zone with location/////
     public function prayerTime($latitude, $longitude, $currentTime)
     {
-        // Get the user's latitude and longitude
-        // $latitude = $request->latitude;
-        // $longitude = $request->longitude;
-        // $currentTime = $request->current_time;
+        // $timestamp = Carbon::now()->timestamp;
 
+        // // Get timezone at user's location
+        // $timezone = timezone_name_from_latitude_and_longitude($latitude, $longitude);
+
+        // // Convert to user's local time
+        // $userTime = Carbon::createFromTimestamp($timestamp, $timezone);
+
+        // // Format as desired
+        // $userTimeFormatted = $userTime->format('H:i');
+        // dd($userTimeFormatted);
         // Send a request to the Islamic Finder API
         $url = 'https://api.aladhan.com/v1/timings?latitude=' . $latitude . '&longitude=' . $longitude . '&method=2';
         $response = file_get_contents($url);
@@ -220,7 +227,7 @@ class UserController extends Controller
 
         // $user_location = UserLocation::create($location);
 
-        // $currentTime = Carbon::now()->format('H:i');
+        $currentTime = Carbon::now()->format('H:i');
 
 
 
@@ -254,8 +261,7 @@ class UserController extends Controller
                     'title' => 'Isha',
                     'time' => $responseData['isha_time']
                 ];
-            } 
-            else if ($responseData['isha_time'] <= $currentTime) {
+            } else if ($responseData['isha_time'] <= $currentTime) {
                 $nextPrayerTime = [
                     'title' => 'Fajr',
                     'time' => $responseData['fajr_time']
@@ -398,5 +404,32 @@ class UserController extends Controller
             return $this->sendError('Unable to proccess. Please try again later');
         }
         return $this->sendResponse($tasbih, 'Tasbih get Successfully');
+    }
+    /// guest user...........///////
+    public function guestUser(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'device_id' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
+            'time_zone' => 'required',
+        ]);
+        if ($validator->fails()) {
+
+            $errors = $this->sendError(implode(",", $validator->errors()->all()));
+            throw new HttpResponseException($errors, 422);
+        }
+        // dd('com');
+        $data = $request->all();
+        $guestuser = GuestUser::updateOrCreate(
+            [
+                'device_id' => $request->device_id
+            ],
+            $data
+        );
+        if (!$guestuser) {
+            return $this->sendError('Unable to proccess. Please try again later');
+        }
+        return $this->sendResponse($guestuser, 'Guest User insert Successfully');
     }
 }

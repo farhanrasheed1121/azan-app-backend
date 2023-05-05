@@ -28,7 +28,9 @@ class AuthController extends Controller
             'user_name' => $request->user_name,
             'password' => bcrypt($request->password),
             'country' => $request->country,
-            'city' => $request->city
+            'city' => $request->city,
+            // 'longitude' => $request->longitude,
+            // 'latitude' => $request->latitude
         ];
 
         $registeredUser = User::create($UserData);
