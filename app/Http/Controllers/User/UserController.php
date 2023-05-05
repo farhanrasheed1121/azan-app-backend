@@ -181,17 +181,22 @@ class UserController extends Controller
     /// prayer time zone with location/////
     public function prayerTime($latitude, $longitude, $currentTime)
     {
-        // $timestamp = Carbon::now()->timestamp;
+        // $current = '16:34';
+        // $prayers = [
+        //     'fajr' => '16:36',
+        //     'dhuhr' => '02:34',
+        //     'asr' => '03:34',
+        //     'maghrib' => '05:34',
+        //     'isha' => '16:34',
+        // ];
 
-        // // Get timezone at user's location
-        // $timezone = timezone_name_from_latitude_and_longitude($latitude, $longitude);
+        // $currentPrayer = array_search($current, $prayers);
 
-        // // Convert to user's local time
-        // $userTime = Carbon::createFromTimestamp($timestamp, $timezone);
-
-        // // Format as desired
-        // $userTimeFormatted = $userTime->format('H:i');
-        // dd($userTimeFormatted);
+        // if ($currentPrayer !== false) {
+        //    dd("The current prayer is $currentPrayer.");
+        // } else {
+        //     dd ("No prayer time matches the current time.");
+        // }
         // Send a request to the Islamic Finder API
         $url = 'https://api.aladhan.com/v1/timings?latitude=' . $latitude . '&longitude=' . $longitude . '&method=2';
         $response = file_get_contents($url);
