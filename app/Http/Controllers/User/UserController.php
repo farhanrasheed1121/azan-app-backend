@@ -232,7 +232,7 @@ class UserController extends Controller
 
         // $user_location = UserLocation::create($location);
 
-        $currentTime = Carbon::now()->format('H:i');
+        // $currentTime = Carbon::now()->format('H:i');
 
 
 
